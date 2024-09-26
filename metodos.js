@@ -23,3 +23,7 @@ console.log(type)
 
 // con esta funcion vemos si el argumento es un numero entero
 Number.isInteger(num)
+
+// Metodos para saber si un argumento es array
+
+Array.isArray(arr)
