@@ -221,12 +221,23 @@ return array[randomIndex];
 function obtenerPrimerStringLargo(array) {
   // Devuelve el primer string con más de 5 caracteres en el array.
   // Tu código:
-  for( let i = 0; i < array.length; i++ ){
-    let indiceAnalizado = array[i]
-    if (indiceAnalizado.length >= 5) {
-        return indiceAnalizado
-    }
-    }
+
+// OTRA SOLUCION usando metodos (Filter)
+
+// let palabraFiltrada = array.filter(function(palabra){
+//               if (palabra.length >=5) return palabra // Nos devuelve un arreglo
+// })
+
+// return palabraFiltrada[0]
+
+// OTRA SOLUCION usando metodos (Find)
+// Las funciones siempre reciben un callback, es decir cada una de las palabras a analizar
+
+let palabraLarga = array.find(function(palabra){
+  if (palabra.length >= 5) return palabra
+
+})
+return palabraLarga
 
 }
 
@@ -584,3 +595,227 @@ function combine(str1, str2, str3) {
       // Devolvemos el string combinado
       return combined;
   }
+
+
+//------------------------------OBJETOS-07----------------------------------------------------
+
+function sort(sortBy, list) {
+  // La función sort recibe dos parámetros:
+  // sortBy: una letra (string).
+  // list: un arreglo de objetos.
+  // La función deberá devolver la lista de objetos ordenada de forma DESCENDIENTE
+  // a partir de la letra recibida. Por ejemplo:
+  // recibes --> ("a", [{ a: 1, b: 3 }, { a: 3, b: 2 }, { a: 2, b: 40 }])
+  // retorna --> [{ a: 3, b: 2 }, { a: 2, b: 40 }, { a: 1, b: 3 }]
+  // Tu código:
+
+     // Usamos sort para ordenar la lista
+     return list.sort((a, b) => {
+        // Comparamos los valores de la propiedad sortBy en los objetos a y b
+        if (a[sortBy] > b[sortBy]) {
+           return -1; // Si a[sortBy] es mayor, lo dejamos en una posición más alta
+        } else if (a[sortBy] < b[sortBy]) {
+           return 1;  // Si b[sortBy] es mayor, lo dejamos en una posición más alta
+        } else {
+           return 0;  // Si son iguales, no se cambia su posición
+        }
+     });
+  }
+
+  /* EXPLICACION:
+
+  1. list.sort((a, b) => { ... }): Aquí se está aplicando la función sort() a la lista de objetos.
+  La función recibe dos parámetros a y b que representan dos objetos consecutivos del array, y 
+  los compara en base al valor de la propiedad especificada por sortBy.
+
+  2. if (a[sortBy] > b[sortBy]): Si el valor de la propiedad en el objeto a es mayor que el valor
+  en b, devolvemos -1 para que a quede antes en la lista (porque estamos ordenando de forma 
+  descendente).
+
+  3. else if (a[sortBy] < b[sortBy]): Si el valor en b es mayor, devolvemos 1 para que b quede
+  antes.
+
+  4. else return 0: Si los valores son iguales, no cambia la posición de los objetos en la lista.
+
+*/
+
+//------------------------------OBJETOS-11----------------------------------------------------
+
+function invocarMetodo(objeto, metodo) {
+  // El parámetro "metodo" es un string que coincide con el nombre de una propiedad del objeto recibido.
+  // Esta propiedad contiene una función en su interior. Debes invocarla/ejecutarla.
+  // NOTA: no necesitas retornar nada.
+  // Tu código:
+
+  objeto[metodo]();
+}
+
+//------------------------------OBJETOS-19----------------------------------------------------
+
+
+function pasarUsuarioAPremium(objetoMuchosUsuarios) {
+  // El parámetro "objetoMuchosUsuarios" es un arreglo de objetos (usuarios).
+  // Cada usuario tiene una propiedad llamada "esPremium".
+  // Define esta propiedad de todos los usuarios como true.
+  // Retornar el arreglo.
+  // Tu código:
+
+for (let i = 0; i < objetoMuchosUsuarios.length; i++){
+  objetoMuchosUsuarios[i].esPremium = true
+}
+return objetoMuchosUsuarios;
+}
+
+// ERROR: Me olvide de poner el la [i] y el = (habia puesto ===) => bien planteado
+
+//------------------------------OBJETOS-20----------------------------------------------------
+
+
+function sumarLikesDeUsuario(objetoUsuario) {
+  // El parámetro "objetoUsuario" tiene una propiedad llamada "posts" que es un arreglo.
+  // Este arreglo contiene objetos (post).
+  // Cada post posee una propiedad llamada "likes". Esta propiedad es un número.
+  // Debes sumar los likes de todos los post y retornar el resultado.
+  // Tu código:
+
+let conteoLikes = 0
+
+for (let i = 0; i < objetoUsuario.posts.length; i++){
+  conteoLikes += objetoUsuario.posts[i].likes
+}
+return conteoLikes;
+
+}
+
+// ERROR: No entendi el correcto uso del For para recorrer una propiedad dentro de otra propiedad
+
+//------------------------------OBJETOS-21----------------------------------------------------
+
+function agregarMetodoCalculoDescuento(objetoProducto) {
+  // Agrega una propiedad al "objetoProducto" con el nombre "calcularPrecioDescuento".
+  // Esta propiedad debe ser una función que multiplique el precio del producto por el porcentajeDeDescuento.
+  // El "objetoProducto" posee una propiedad "precio" y una propiedad "porcentajeDeDescuento".
+  // Luego debes restar del precio total del producto ese valor de descuento.
+  // Retornar el precio final.
+  // Ejemplo:
+  // Precio ---> 10
+  // PorcentajeDeDescuento ---> 0.2
+  // Precio final ---> 8
+  // Tu código:
+
+objetoProducto.calcularPrecioDescuento = function (){
+  let descuento = this.precio * this.porcentajeDeDescuento;
+  this.precio -= descuento;
+  return this.precio;
+}
+return objetoProducto;
+  }
+
+module.exports = agregarMetodoCalculoDescuento;
+
+//EXPLICACION:
+
+/*
+
+La función agregarMetodoCalculoDescuento tiene el objetivo de agregar una nueva propiedad llamada
+calcularPrecioDescuento al objeto objetoProducto. Esta propiedad será una función que calculará 
+el precio del producto después de aplicar el descuento. La fórmula para calcular el precio con
+descuento es: precio final=precio original−(precio original×porcentaje de descuento)
+
+1) Agregar una propiedad al objeto: objetoProducto.calcularPrecioDescuento = function () {
+
+    Aquí estás agregando una nueva propiedad al objeto objetoProducto llamada 
+    calcularPrecioDescuento. Esta propiedad es una función.
+
+2) Cálculo del descuento: let descuento = this.precio * this.porcentajeDeDescuento;
+
+    Dentro de la función, se calcula el valor del descuento multiplicando el precio (this.precio)
+    por el porcentaje de descuento (this.porcentajeDeDescuento). Utilizamos this para referirnos
+    al objeto objetoProducto dentro de la función.
+
+3) Actualizar el precio del producto: this.precio -= descuento;
+
+    Luego, restamos el valor del descuento al precio original y actualizamos la propiedad precio
+    del objeto objetoProducto.
+
+4) Devolver el precio actualizado: return this.precio;
+
+    La función retorna el nuevo valor de precio después de aplicar el descuento.
+
+5) Retornar el objeto actualizado: return objetoProducto;
+
+    Finalmente, la función agregarMetodoCalculoDescuento retorna el objeto objetoProducto con la
+    nueva propiedad calcularPrecioDescuento agregada.
+
+*/
+
+//------------------------------OBJETOS-22----------------------------------------------------
+
+
+
+  function esAnagrama(str1, str2) {
+   // La función recibe dos argumentos "str1" y "str2" que son strings.
+   // Determina si los dos strings son anagramas.
+   // Devuelve true de ser así, sino retorna false.
+   // IMPORTANTE: Un anagrama es una palabra que se forma
+   // con las mismas letras que otra, pero en orden diferente.
+   // Tu código:
+
+  // Convertimos las cadenas a minúsculas (opcional, si queremos ignorar mayúsculas)
+  str1 = str1.toLowerCase();
+  str2 = str2.toLowerCase();
+
+  // Ordenamos los caracteres de cada cadena
+  const cadenaOrdenada1 = str1.split('').sort().join('');
+  const cadenaOrdenada2 = str2.split('').sort().join('');
+
+  // Comparamos las cadenas ordenadas
+  return cadenaOrdenada1 === cadenaOrdenada2;
+}
+
+//------------------------------CB-07---------------------------------------------------
+
+
+function filter(arrayOfStrings) {
+  // Debes identificar todos los elementos el arreglo que comiencen con la letra "a".
+  // Luego retorna un nuevo arreglo con estos elementos.
+  // Tu código:
+
+     // Usar el método filter para obtener los strings que comienzan con "a"
+     return arrayOfStrings.filter(function(str) {
+        // Verificar si la primera letra es "a"
+        return str.charAt(0).toLowerCase() === 'a';
+     });
+
+}
+
+//------------------------------CB-08---------------------------------------------------
+
+
+
+const buscarElemento = (array, callback) => {
+  // Busca un elemento en el array y retornalo.
+  // Si el elemento no se encuentra, devuelve el mensje "No se encontró el elemento".
+  // La función de callback es la encargada de evaluar si el elemento fue encontrado.
+  // Tu código:
+
+    // Iterar sobre el arreglo buscando el elemento que cumpla la condición del callback
+    for (let i = 0; i < array.length; i++) {
+      // Si el callback retorna true, devuelve el elemento encontrado
+      if (callback(array[i])) {
+        return array[i];
+      }
+    }
+    // Si no se encontró el elemento, devuelve el mensaje
+    return "No se encontró el elemento";
+  }
+
+
+
+
+
+
+
+
+
+
